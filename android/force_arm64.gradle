@@ -1,0 +1,35 @@
+subprojects {
+    def configureAndroid = { project ->
+        def android = project.extensions.findByName("android")
+        if (android != null) {
+            // Force NDK packaging filters
+            if (android.defaultConfig.ndk.abiFilters != null) {
+                android.defaultConfig.ndk.abiFilters.clear()
+                android.defaultConfig.ndk.abiFilters.add("arm64-v8a")
+                android.defaultConfig.ndk.abiFilters.add("x86_64")
+            } else {
+                // If it was null, initialize it
+                 android.defaultConfig.ndk.abiFilters = ["arm64-v8a", "x86_64"] as Set
+            }
+            
+            // Force CMake build filters (this is where the error happens)
+            try {
+                if (android.defaultConfig.externalNativeBuild.cmake.abiFilters != null) {
+                     android.defaultConfig.externalNativeBuild.cmake.abiFilters.clear()
+                     android.defaultConfig.externalNativeBuild.cmake.abiFilters.add("arm64-v8a")
+                     android.defaultConfig.externalNativeBuild.cmake.abiFilters.add("x86_64")
+                }
+            } catch (Exception e) {
+                // Ignore if cmake is not configured for this project
+            }
+        }
+    }
+
+    if (project.state.executed) {
+        configureAndroid(project)
+    } else {
+        project.afterEvaluate {
+            configureAndroid(it)
+        }
+    }
+}

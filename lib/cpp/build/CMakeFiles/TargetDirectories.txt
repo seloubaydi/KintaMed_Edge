@@ -1,0 +1,3 @@
+/home/soufiane/Documents/FlutterProject/kintamed Edge/lib/cpp/build/CMakeFiles/medgemma_bridge.dir
+/home/soufiane/Documents/FlutterProject/kintamed Edge/lib/cpp/build/CMakeFiles/edit_cache.dir
+/home/soufiane/Documents/FlutterProject/kintamed Edge/lib/cpp/build/CMakeFiles/rebuild_cache.dir
