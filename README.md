@@ -1,7 +1,7 @@
 # KintaMed Edge 🏥 ⚡️
 
 [![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=flat&logo=Flutter&logoColor=white)](https://flutter.dev/)
-[![AI-Powered](https://img.shields.io/badge/AI--Powered-MedGemma%203-blueviolet.svg?style=flat)](https://ai.google.dev/)
+[![AI-Powered](https://img.shields.io/badge/AI--Powered-MedGemma%201.5-blueviolet.svg?style=flat)](https://huggingface.co/eloubaydi/medgemma-1.5-ort-standard)
 [![Offline First](https://img.shields.io/badge/Offline--First-Local%20Inference-green.svg?style=flat)](https://github.com/google/gemma.cpp)
 [![Security](https://img.shields.io/badge/Security-SQLCipher%20Encrypted-red.svg?style=flat)](https://www.zetetic.net/sqlcipher/)
 
@@ -29,7 +29,7 @@ Before deployment, please review the following:
 
 ## ✨ Key Features
 
-- 🧠 **Offline Medical AI**: Uses a quantized version of **Gemma 3** for on-device clinical reasoning.
+- 🧠 **Offline Medical AI**: Uses a quantized version of **MedGemma 1.5** for on-device clinical reasoning.
 - 🚦 **Intelligent Triage**: Automatically suggests a triage category (**Red**, **Yellow**, **Green**) based on vital signs and symptoms.
 - 📸 **Visual Intelligence**: Multimodal capabilities allow workers to attach photos (wounds, rashes, X-rays) for AI-driven clinical analysis.
 - 📄 **PDF Report Generation**: Instant generation of clinical summaries for sharing via Bluetooth or physical hand-off during evacuations.
@@ -45,11 +45,10 @@ KintaMed Edge is built for resilience and performance on high-end consumer hardw
 ### Core Stack
 - **Frontend Framework**: [Flutter](https://flutter.dev/) (Cross-platform)
 - **State Management**: [Riverpod](https://riverpod.dev/) (`flutter_riverpod`, `riverpod_annotation`)
-- **On-Device LLM**: **MedGemma 3** (Quantized) running entirely locally via a custom C++ FFI Bridge (`dart:ffi`) using ONNX Runtime GenAI.
+- **On-Device LLM**: **MedGemma 1.5** (ONNX Runtime Standard) running entirely locally via a custom C++ FFI Bridge (`dart:ffi`) using ONNX Runtime GenAI.
 - **Local Database**: SQLite with military-grade encryption using **SQLCipher** (`sqflite_sqlcipher`).
 
 ### Key Packages & Capabilities
-- **Speech-to-Clinical Data**: `speech_to_text` for hands-free symptom recording in the field.
 - **Visual AI Processing**: `image_picker` and `image` for capturing and preprocessing wound/rash photos before sending them to the multimodal vision encoder.
 - **PDF Report Generation**: `pdf` and `printing` for generating instant clinical summaries.
 - **Data Persistence & State**: `shared_preferences` for fast settings access, synchronized with Riverpod state.
@@ -63,12 +62,12 @@ KintaMed Edge is built for resilience and performance on high-end consumer hardw
 ### Prerequisites
 - Flutter SDK (>= 3.10.1)
 - High-end mobile device or tablet (>8GB RAM recommended for Visual AI capabilities)
-- ~3GB of free space for MedGemma 3 ONNX model weights
+- ~3.83GB of free space for MedGemma 1.5 ONNX model weights
 
 ### Installation
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/your-username/kintamed-edge.git
+    git clone https://github.com/seloubaydi/KintaMed_Edge.git
     ```
 2.  **Install dependencies**:
     ```bash
@@ -80,7 +79,7 @@ KintaMed Edge is built for resilience and performance on high-end consumer hardw
     ```
 
 ### AI Model Setup
-Upon first launch, the app will initialize the **MedGemma 3** engine in the background. The model is persistently loaded and managed via our custom C++ native bridge to ensure responsive triage performance across assessments. Once the model weights are fetched and initialized, the app operates completely offline.
+Upon first launch, the app will initialize the **MedGemma 1.5** engine in the background. Model files are downloaded directly from Hugging Face ([eloubaydi/medgemma-1.5-ort-standard](https://huggingface.co/eloubaydi/medgemma-1.5-ort-standard)) and require approximately 3.83GB of storage. The model is persistently loaded and managed via our custom C++ native bridge to ensure responsive triage performance across assessments. Once the model weights are fetched and initialized, the app operates completely offline.
 
 ---
 
@@ -90,7 +89,7 @@ Upon first launch, the app will initialize the **MedGemma 3** engine in the back
 
 ### Step-by-Step Usage:
 1.  **Patient Intake**: Open the app and begin a new assessment. The healthcare worker enters basic demographic information and current vital signs (BP, SpO2, Temp, Heart Rate).
-2.  **Symptom Collection**: Record the patient's chief complaint and symptoms. This can be typed manually or dictated hands-free using the built-in voice-to-text.
+2.  **Symptom Collection**: Record the patient's chief complaint and symptoms. This can be typed manually.
 3.  **Visual Evidence (Multimodal)**: If the patient presents with physical signs (e.g., a wound, skin rash, or visible trauma), the worker can easily snap a photo or attach an image.
 4.  **Local Inference**: The application packages the structured vitals, text symptoms, and visual evidence, formatting a prompt that is seamlessly passed to the on-device MedGemma engine.
 5.  **Triage Output & Action Plan**: The AI quickly parses the clinical picture (*without any internet connection*) and outputs a structured response including:
